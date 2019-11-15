@@ -28,7 +28,7 @@ const ColorList = ({ colors, updateColors }) => {
       .put(`/colors/${colorToEdit.id}`, colorToEdit)
       .then(res => {
         console.log(res)
-        setColorToEdit(res.data)
+        props.something(res.data)
         props.history.push('/colors')
       })
       .catch(err => console.log('err in ColorList.saveEdit', err))
@@ -38,24 +38,13 @@ const ColorList = ({ colors, updateColors }) => {
     
   };
 
-  // useEffect(() => {
-  //   something()
-  // }, [])
-
-  // const something = () => {
-  //   axiosWithAuth()
-  //     .get('/colors')
-  //     .then(res => setItem(res.data))
-  //     .catch(err => (console.log('error in something', err)))
-  // }
-
   const deleteColor = props => {
     // e.preventDefault();
     console.log(props)
     axiosWithAuth()
       .delete(`/colors/${props.id}`)
       .then(res => {
-        setColorToEdit(res.data)
+        props.something(res.data)
         props.history.push(`/${props.id}`)
       })
       .catch(err => console.log('error in deleteColor', err))
