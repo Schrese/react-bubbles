@@ -8,8 +8,10 @@ import PrivateRoute from './utils/PrivateRoute';
 import Login from "./components/Login";
 import BubblePage from './components/BubblePage';
 import "./styles.scss";
+import { axiosWithAuth } from "./utils/axiosWithAuth";
 
 function App() {
+
   return (
     <Router>
       <div className="App">

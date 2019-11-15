@@ -1,29 +1,64 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
+
+//utils
+import { axiosWithAuth } from "../utils/axiosWithAuth";
+
 
 const initialColor = {
   color: "",
   code: { hex: "" }
 };
-
+// 
 const ColorList = ({ colors, updateColors }) => {
-  console.log(colors);
+  // console.log(colors);
+  // console.log(updateColors);
   const [editing, setEditing] = useState(false);
   const [colorToEdit, setColorToEdit] = useState(initialColor);
+  const [item, setItem] = useState([])
 
   const editColor = color => {
     setEditing(true);
     setColorToEdit(color);
   };
 
-  const saveEdit = e => {
-    e.preventDefault();
+  const saveEdit = props => {
+    // e.preventDefault();
+    axiosWithAuth() 
+      .put(`/colors/${colorToEdit.id}`, colorToEdit)
+      .then(res => {
+        console.log(res)
+        setColorToEdit(res.data)
+        props.history.push('/colors')
+      })
+      .catch(err => console.log('err in ColorList.saveEdit', err))
     // Make a put request to save your updated color
     // think about where will you get the id from...
     // where is is saved right now?
+    
   };
 
-  const deleteColor = color => {
+  // useEffect(() => {
+  //   something()
+  // }, [])
+
+  // const something = () => {
+  //   axiosWithAuth()
+  //     .get('/colors')
+  //     .then(res => setItem(res.data))
+  //     .catch(err => (console.log('error in something', err)))
+  // }
+
+  const deleteColor = props => {
+    // e.preventDefault();
+    console.log(props)
+    axiosWithAuth()
+      .delete(`/colors/${props.id}`)
+      .then(res => {
+        setColorToEdit(res.data)
+        props.history.push(`/${props.id}`)
+      })
+      .catch(err => console.log('error in deleteColor', err))
     // make a delete request to delete this color
   };
 
